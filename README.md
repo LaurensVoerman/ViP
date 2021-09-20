@@ -35,3 +35,42 @@ with the following plugins:
 
 - Oculus Link: https://www.oculus.com/setup/
 - Oculus ADB Drivers: https://developer.oculus.com/downloads/package/oculus-adb-drivers/
+
+as my android keystore (build/Android/KeyStore.jks)is not included in the github files, you may need to create your own keystore:
+In the Unreal editor: navigate to Edit -> Project Settings; Platforms - Android under "Distribution Signing" is a link with instructions.
+
+for the quest for business you may want to generate the SHA256 checksum:
+
+`<certutil -hashfile Schlenklijn-Android-Shipping-arm64.apk SHA256>`
+
+`<certutil -hashfile main.1.com.YourCompany.Schlenklijn.obb SHA256>`
+
+## game objects
+The majority of the game objects are objects of blueprint class "BP_PickupCube" (VirtualRealityBP\Blueprints\BP_PickupCube)
+the different meshes (eg glassware\connectors\stop_yellow) have "sockets" with a name (yellow.in for stop_yellow).
+These sockets will match opposing sockets in other pieces, and connect to them.
+* yellow.(in|out) = standard taper 14/23 ground glass [Conically tapered joints](https://en.wikipedia.org/wiki/Ground_glass_joint#Conically_tapered_joints)
+* green.(in|out) = standard taper 24/29 ground glass Conically tapered joints
+when connecting these types of socket, only the rotation about the socket z-axis is taken from the dropped objects' current relative postition, translation and the other orientation is taken from the matching socket.
+#### Other socket types:
+* yellow.clip intended for 14 mm [plastic joint clip](https://en.wikipedia.org/wiki/Joint_clip#Plastic_joint_clips), 
+* green.clip intended for 24 mm plastic joint clip
+   In the game logic these clips will stop the glassware from seperating until the clip is removed
+* tube.in - barbed connector for 6 mm tubes.
+* rail.(in|out) - invisible sliding rail; fixed orientation on matching socket, but free z-axis position.
+* Cyl_40mm.(in|out) - intended for a glass clamp (something like [this](https://en.wikipedia.org/wiki/Utility_clamp) )
+* Cyl_10mm.(in|out) - intended for steel rods of labstand and glass clamp matching a bosshead
+    Cyl* sockets allow rotation and translation about the z-axis;
+    Cyl*.in sockets can have multiple connections if they have different translation.
+* 2waytap.(in|out) glass or plastic rotating tap with a single horizontal hole.
+* 3waytap.(in|out) glass rotating tap with two slanted holes.
+* (2|3)waytap.clip blue plastic screwcap fixing taps in place. 
+  When clipped with this cap, the tap will only rotate in it's socket when grabbed.
+* dial.in - used in the stirrer, this type of dial allows for limited rotatation. (0.9 full rotations =324 degrees)
+* 1waytap.in - used in fixed scene (Content\Geometry\zuurkast_main_zonderknoppen); not used for in game dynamic matching
+* PermanentlyAttached - connected to 1waytap.in in fixed scene (Content\Geometry\zuurkast_kraan_knob*) ; allows 2 full rotations about z
+* 0waytap.out - used for the labjack control knob; allows 11.68 full rotations.
+
+glass material: The glass material used comes from this (free) unreal assed pack https://www.unrealengine.com/marketplace/en-US/product/advanced-glass-material-pack
+
+## blueprint code
