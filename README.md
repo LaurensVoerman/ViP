@@ -11,11 +11,14 @@ This work is licensed under a
 [cc-by-image]: https://i.creativecommons.org/l/by/4.0/88x31.png
 [cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg
 
-Introduction
-[icon]: https://github.com/LaurensVoerman/ViP/blob/main/Build/Android/res/drawable-xhdpi/icon.png?raw=true
-The ViP package is an unreal project that allows students to practice building a chemstry setup in VR on the oculus quest or quest2 vr headset.
+## Introduction
 
-Software environment
+![icon](https://github.com/LaurensVoerman/ViP/blob/main/Build/Android/res/drawable-xhdpi/icon.png?raw=true)
+
+The ViP package is an unreal project that allows students to practice building a chemstry setup in VR on the oculus quest or quest2 vr headset. While the project works on a pc connected rift of trough oculus link, that is not the intended target (it is usefull for debugging). In the current state the project will NOT work without VR controllers, because no interaction is possible with keyboard/mouse.
+As this is a "blueprint only" project, Visual Studio should not be required.
+
+## Software environment
 
 The current project builds on windows 10 (21H1) with
 Unreal Engine 4.26.2
@@ -23,7 +26,9 @@ with the following plugins:
 - Blueprint File SDK https://www.unrealengine.com/marketplace/en-US/product/blueprint-file-sdk
 - VaRest 1.1-r31 https://www.unrealengine.com/marketplace/en-US/product/varest-plugin
 - Oculus VR plugin v 1.51.0 
-To build the Android ASTC target for the quest(2) the following software is needed:
+
+#### To build the Android ASTC target for the quest(2) the following software is needed:
+
 - Android Studio 4.0 from https://developer.android.com/studio/archive
     setup instructions here: https://docs.unrealengine.com/4.26/en-US/SharingAndReleasing/Mobile/Android/Setup/AndroidStudio/
 
