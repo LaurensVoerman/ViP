@@ -49,19 +49,20 @@ for the quest for business you may want to generate the SHA256 checksum:
 The majority of the game objects are objects of blueprint class "BP_PickupCube" (VirtualRealityBP\Blueprints\BP_PickupCube)
 the different meshes (eg glassware\connectors\stop_yellow) have "sockets" with a name (yellow.in for stop_yellow).
 These sockets will match opposing sockets in other pieces, and connect to them.
+
 * yellow.(in|out) = standard taper 14/23 ground glass [Conically tapered joints](https://en.wikipedia.org/wiki/Ground_glass_joint#Conically_tapered_joints)
 * green.(in|out) = standard taper 24/29 ground glass Conically tapered joints
 when connecting these types of socket, only the rotation about the socket z-axis is taken from the dropped objects' current relative postition, translation and the other orientation is taken from the matching socket.
 #### Other socket types:
 * yellow.clip intended for 14 mm [plastic joint clip](https://en.wikipedia.org/wiki/Joint_clip#Plastic_joint_clips), 
 * green.clip intended for 24 mm plastic joint clip
-   In the game logic these clips will stop the glassware from seperating until the clip is removed
+    - In the game logic these clips will stop the glassware from seperating until the clip is removed
 * tube.in - barbed connector for 6 mm tubes.
 * rail.(in|out) - invisible sliding rail; fixed orientation on matching socket, but free z-axis position.
 * Cyl_40mm.(in|out) - intended for a glass clamp (something like [this](https://en.wikipedia.org/wiki/Utility_clamp) )
 * Cyl_10mm.(in|out) - intended for steel rods of labstand and glass clamp matching a bosshead
-    Cyl* sockets allow rotation and translation about the z-axis;
-    Cyl*.in sockets can have multiple connections if they have different translation.
+    - Cyl* sockets allow rotation and translation about the z-axis;
+    - Cyl*.in sockets can have multiple connections if they have different translation.
 * 2waytap.(in|out) glass or plastic rotating tap with a single horizontal hole.
 * 3waytap.(in|out) glass rotating tap with two slanted holes.
 * (2|3)waytap.clip blue plastic screwcap fixing taps in place. 
