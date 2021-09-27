@@ -1,16 +1,16 @@
 # ViP
 [![CC BY 4.0][cc-by-shield]][cc-by]
-
-Virtuele Practica
-
 This work is licensed under a
 [Creative Commons Attribution 4.0 International License][cc-by].
-
 [![CC BY 4.0][cc-by-image]][cc-by]
 
 [cc-by]: http://creativecommons.org/licenses/by/4.0/
 [cc-by-image]: https://i.creativecommons.org/l/by/4.0/88x31.png
 [cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg
+
+Virtuele Practica
+
+
 
 ## Introduction
 
@@ -52,7 +52,7 @@ These sockets will match opposing sockets in other pieces, and connect to them.
 
 * yellow.(in|out) = standard taper 14/23 ground glass [Conically tapered joints](https://en.wikipedia.org/wiki/Ground_glass_joint#Conically_tapered_joints)
 * green.(in|out) = standard taper 24/29 ground glass Conically tapered joints
-when connecting these types of socket, only the rotation about the socket z-axis is taken from the dropped objects' current relative postition, translation and the other orientation is taken from the matching socket.
+    - when connecting these types of socket, only the rotation about the socket z-axis is taken from the dropped objects' current relative postition, translation and the other orientation is taken from the matching socket.
 #### Other socket types:
 * yellow.clip intended for 14 mm [plastic joint clip](https://en.wikipedia.org/wiki/Joint_clip#Plastic_joint_clips), 
 * green.clip intended for 24 mm plastic joint clip
@@ -71,7 +71,24 @@ when connecting these types of socket, only the rotation about the socket z-axis
 * 1waytap.in - used in fixed scene (Content\Geometry\zuurkast_main_zonderknoppen); not used for in game dynamic matching
 * PermanentlyAttached - connected to 1waytap.in in fixed scene (Content\Geometry\zuurkast_kraan_knob*) ; allows 2 full rotations about z
 * 0waytap.out - used for the labjack control knob; allows 11.68 full rotations.
-
+* roerboon.(in|out) stirring bean connector; should be available in all fluid containgers, not yet driven by magnetic stirrer.
+* 
 glass material: The glass material used comes from this (free) unreal assed pack https://www.unrealengine.com/marketplace/en-US/product/advanced-glass-material-pack
 
 ## blueprint code
+###### VirtualRealityBP\Blueprints\BP_PickupCube
+provides most glassware behavior: highlight on select, pickup & drop; find matching sockets on drop and attach.
+###### VirtualRealityBP\Blueprints\BP_Labjack
+derives from pickupCube, has a construction script and responds to "socket value changed" by changing it's height.
+###### VirtualRealityBP\Blueprints\BP_RemoteController
+spawned when grabbing a rotating tap, reduces the current controller transform to a rotation, adds rotation from thumb joystick and passes the movement to the tap as "socket value changed" message, making the tap move.
+###### VirtualRealityBP\Blueprints\BP_RailRemoteController
+like the remoteController - but this one dous translation (used for sliding glass front of the fumehood)
+###### glassware\Tube1
+provide fexible tubes connecting cooling and lab gasses. spwans a tubeEnd start and endpoint that connects to "tube.in" sockets.
+###### Button\BP_VRPushButton
+reset/load/save buttons. provides access to a single savegame, stored on the quest in
+/sdcard/UE4Game/Schlenklijn/Schlenklijn/Saved/SaveGames/DefaultSlot.sav
+(windows: Schlenklijn\Saved\SaveGames\DefaultSlot.sav)
+As this savegave persists across reboots, this allows you to stop the app and even restart the quest to get the chromecast working again without losing your current work.
+
