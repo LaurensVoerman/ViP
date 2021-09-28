@@ -9,6 +9,12 @@
 @GOTO :EOF
 )
 @echo UE4Editor found:  "%UE_4_26%"
+rem fake builddata
+for %%i in (Content\VirtualRealityBP\Maps\*.umap) do (
+  	if not exist Content\VirtualRealityBP\Maps\%%~ni_BuiltData.uasset (
+  		fsutil file createnew Content\VirtualRealityBP\Maps\%%~ni_BuiltData.uasset 0
+  	)
+)
 
 for %%i in (*.uproject) do (
 start "UE4" /b "%UE_4_26%" "%~dp0%%i" -ExecCmds="t.MaxFPS 30"
