@@ -36,14 +36,22 @@ with the following plugins:
 - Oculus Link: https://www.oculus.com/setup/
 - Oculus ADB Drivers: https://developer.oculus.com/downloads/package/oculus-adb-drivers/
 
+#### Project start
+* Load Errors: Failed to load /Game/VirtualRealityBP/Maps/MotionControllerMap_BuiltData.MotionControllerMap_BuiltData Referenced by PersistentLevel  
+    - the BuildData is not in the reposetory; press "Build" in the editor to generate it.
+* while building: droogbuis Object has overlapping UVs (~12x).
+    - to be fixed.
+
+#### Build Android_ASTC
 as my android keystore (build/Android/KeyStore.jks)is not included in the github files, you may need to create your own keystore:
 In the Unreal editor: navigate to Edit -> Project Settings; Platforms - Android under "Distribution Signing" is a link with instructions.
+* update: edit->Project Settings Packaging “For Distribution” OFF  
+committed to github to make project build unsigned and without errors.
 
 for the quest for business you may want to generate the SHA256 checksum:
 
-`<certutil -hashfile Schlenklijn-Android-Shipping-arm64.apk SHA256>`
-
-`<certutil -hashfile main.1.com.YourCompany.Schlenklijn.obb SHA256>`
+    certutil -hashfile Schlenklijn-Android-Shipping-arm64.apk SHA256  
+    certutil -hashfile main.1.com.YourCompany.Schlenklijn.obb SHA256  
 
 ## game objects
 The majority of the game objects are objects of blueprint class "BP_PickupCube" (VirtualRealityBP\Blueprints\BP_PickupCube)
@@ -72,23 +80,44 @@ These sockets will match opposing sockets in other pieces, and connect to them.
 * PermanentlyAttached - connected to 1waytap.in in fixed scene (Content\Geometry\zuurkast_kraan_knob*) ; allows 2 full rotations about z
 * 0waytap.out - used for the labjack control knob; allows 11.68 full rotations.
 * roerboon.(in|out) stirring bean connector; should be available in all fluid containgers, not yet driven by magnetic stirrer.
-* 
+    
 glass material: The glass material used comes from this (free) unreal assed pack https://www.unrealengine.com/marketplace/en-US/product/advanced-glass-material-pack
 
 ## blueprint code
-###### VirtualRealityBP\Blueprints\BP_PickupCube
+##### VirtualRealityBP/Blueprints/BP_PickupCube
 provides most glassware behavior: highlight on select, pickup & drop; find matching sockets on drop and attach.
-###### VirtualRealityBP\Blueprints\BP_Labjack
+###### VirtualRealityBP/Blueprints/BP_Labjack
 derives from pickupCube, has a construction script and responds to "socket value changed" by changing it's height.
-###### VirtualRealityBP\Blueprints\BP_RemoteController
+###### VirtualRealityBP/Blueprints/BP_RemoteController
 spawned when grabbing a rotating tap, reduces the current controller transform to a rotation, adds rotation from thumb joystick and passes the movement to the tap as "socket value changed" message, making the tap move.
-###### VirtualRealityBP\Blueprints\BP_RailRemoteController
+###### VirtualRealityBP/Blueprints/BP_RailRemoteController
 like the remoteController - but this one dous translation (used for sliding glass front of the fumehood)
-###### glassware\Tube1
+###### glassware/TubeEnd
+
+##### glassware/Tube1
 provide fexible tubes connecting cooling and lab gasses. spwans a tubeEnd start and endpoint that connects to "tube.in" sockets.
-###### Button\BP_VRPushButton
+##### Button/BP_VRPushButton
 reset/load/save buttons. provides access to a single savegame, stored on the quest in
 /sdcard/UE4Game/Schlenklijn/Schlenklijn/Saved/SaveGames/DefaultSlot.sav
 (windows: Schlenklijn\Saved\SaveGames\DefaultSlot.sav)
 As this savegave persists across reboots, this allows you to stop the app and even restart the quest to get the chromecast working again without losing your current work.
+##### Button/MySaveGame
+Load/Save functions
+
+##### VirtualRealityBP/Blueprints/BP_LabGameMode
+Game mode - data only
+##### VirtualRealityBP/Blueprints/BP_MotionController
+default from Startercontent; modified
+* Release Actor: don't drop something taken by the other hand
+* Setup Room Scale Outline: disabled to remove reference to SteamVRChaperone requiring steamVR plugin
+* EventGraph Tick: after "update animation of hand" add highlight code to show grab target.
+
+##### VirtualRealityBP/Blueprints/MotionControllerPawn
+default from Startercontent
+##### VirtualRealityBP/Blueprints/PickupActorInterface
+default from Startercontent; defines interface function "Pickup" and "Drop"
+##### VirtualRealityBP/Blueprints/WebPageWidget
+TBD: currently doesn't work at all.
+##### VirtualRealityBP/Blueprints/InfoText
+TBD: disabled; intened to allow config file to load on startup to change instructions and available parts.
 
