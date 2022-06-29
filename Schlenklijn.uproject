@@ -404,10 +404,6 @@
 			"Enabled": false
 		},
 		{
-			"Name": "GitSourceControl",
-			"Enabled": false
-		},
-		{
 			"Name": "OnlineSubsystemUtils",
 			"Enabled": false
 		},
